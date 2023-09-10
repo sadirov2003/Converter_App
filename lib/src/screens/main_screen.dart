@@ -74,10 +74,10 @@ class _MainScreenState extends State<MainScreen> {
         },
         child: Text(
           buttonText,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.normal,
-            color: Colors.white,
+            color: buttonColor,
           ),
         ),
       ),
@@ -201,19 +201,19 @@ class _MainScreenState extends State<MainScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        buildButton(context, 'C', 0.6, Colors.black12),
-                        buildButton(context, '7', 0.6, Colors.blue),
-                        buildButton(context, '8', 0.6, Colors.blue),
-                        buildButton(context, '9', 0.6, Colors.blue),
+                        buildButton(context, 'C', 0.6, Colors.green),
+                        buildButton(context, '7', 0.6, Colors.white),
+                        buildButton(context, '8', 0.6, Colors.white),
+                        buildButton(context, '9', 0.6, Colors.white),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        buildButton(context, '↻', 0.6, Colors.blue),
-                        buildButton(context, '4', 0.6, Colors.blue),
-                        buildButton(context, '5', 0.6, Colors.blue),
-                        buildButton(context, '6', 0.6, Colors.blue),
+                        buildButton(context, '↻', 0.6, Colors.lightBlueAccent),
+                        buildButton(context, '4', 0.6, Colors.white),
+                        buildButton(context, '5', 0.6, Colors.white),
+                        buildButton(context, '6', 0.6, Colors.white),
                       ],
                     ),
                     Row(
@@ -233,12 +233,26 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                             onPressed: () {},
-                            child: const Text(
-                              '=',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 40,
-                              ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const[
+                                Text(
+                                  '+ −',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 30,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Text(
+                                  '× ÷',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 30,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -246,11 +260,11 @@ class _MainScreenState extends State<MainScreen> {
                           children: [
                             Row(
                               children: [
-                                buildButton(context, '1', 0.6, Colors.blue),
+                                buildButton(context, '1', 0.6, Colors.white),
                                 const SizedBox(width: 8),
-                                buildButton(context, '2', 0.6, Colors.blue),
+                                buildButton(context, '2', 0.6, Colors.white),
                                 const SizedBox(width: 8),
-                                buildButton(context, '3', 0.6, Colors.blue),
+                                buildButton(context, '3', 0.6, Colors.white),
                               ],
                             ),
                             const SizedBox(height: 15),
@@ -258,11 +272,11 @@ class _MainScreenState extends State<MainScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 //buildButton(context, 'C', 0.6, Colors.blue),
-                                buildButton(context, '0', 0.6, Colors.blue),
+                                buildButton(context, '0', 0.6, Colors.white),
                                 const SizedBox(width: 8),
-                                buildButton(context, ',', 0.6, Colors.blue),
+                                buildButton(context, '.', 0.6, Colors.white),
                                 const SizedBox(width: 8),
-                                buildButton(context, '×', 0.6, Colors.blue),
+                                buildButton(context, '×', 0.6, Colors.white),
                               ],
                             ),
                           ],
