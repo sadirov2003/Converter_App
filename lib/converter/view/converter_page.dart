@@ -34,10 +34,7 @@ class ConverterPage extends StatelessWidget {
           ],
         ),
       ),
-      body: BlocProvider(
-        create: (_) => ConverterBloc(),
-        child: const ConverterList(),
-      ),
+      body: const ConverterList(),
     );
   }
 }

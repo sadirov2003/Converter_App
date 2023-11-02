@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_exchange_rates_app/converter/bloc/converter_bloc.dart';
 import 'package:flutter_exchange_rates_app/converter/bloc/converter_state.dart';
 import 'package:flutter_exchange_rates_app/converter/widgets/container_currency_widget.dart';
+import 'package:flutter_exchange_rates_app/keyboard/bloc/keyboard_bloc.dart';
+import 'package:flutter_exchange_rates_app/keyboard/view/converter_keyboard_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../bloc/converter_event.dart';
@@ -15,71 +17,18 @@ class ConverterList extends StatefulWidget {
 }
 
 class _ConverterListState extends State<ConverterList> {
-  String money = '0';
-  String quantityTJS = '0';
-  String quantityUSD = '0';
-  String quantityAMD = '0';
-  String quantityAZN = '0';
-
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     context.read<ConverterBloc>().add(ConverterFetchedEvent());
-  }
-
-  buttonPressed(String buttonText) {
-    setState(() {
-      if (buttonText == 'C') {
-        money = '0';
-      } else if (buttonText == '×') {
-        money = money.substring(0, money.length - 1);
-        if (money == '') {
-          money = '0';
-        }
-      } else {
-        if (money == '0') {
-          money = buttonText;
-        } else {
-          money = money + buttonText;
-        }
-      }
-    });
-  }
-
-  Widget buildButton(BuildContext context, String buttonText,
-      double buttonHeight, Color buttonColor) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.1 * buttonHeight,
-      width: 83,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black12,
-          side: const BorderSide(
-            color: Colors.white,
-            width: 1,
-            style: BorderStyle.solid,
-          ),
-          padding: EdgeInsets.all(0),
-        ),
-        onPressed: () {
-          buttonPressed(buttonText);
-        },
-        child: Text(
-          buttonText,
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.normal,
-            color: buttonColor,
-          ),
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ConverterBloc, ConverterState>(
-      builder: (context, state) {
+        builder: (context, state) {
+      return BlocBuilder<KeyboardBloc, String>(builder: (context, keyState) {
         return Container(
           width: double.infinity,
           color: Colors.black,
@@ -89,7 +38,7 @@ class _ConverterListState extends State<ConverterList> {
               Container(
                 padding: EdgeInsets.all(12),
                 height: 60,
-                color: Color.fromARGB(255, 72, 121, 116),
+                color: const Color.fromARGB(255, 72, 121, 116),
                 child: Row(
                   children: [
                     ClipRRect(
@@ -127,7 +76,7 @@ class _ConverterListState extends State<ConverterList> {
                         child: Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
                           child: Text(
-                            money,
+                            keyState,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -143,132 +92,36 @@ class _ConverterListState extends State<ConverterList> {
                 currency: 'TJS',
                 urlFlagImage: 'https://flagsapi.com/TJ/flat/64.png',
                 quantity: state.currency.isNotEmpty
-                    ? ( state.currency[0].tjs) * double.parse(money)
+                    ? (state.currency[0].tjs) * double.parse(keyState)
                     : 0,
               ),
               ContainerCurrencyWidget(
                 currency: 'USD',
                 urlFlagImage: 'https://flagsapi.com/US/flat/64.png',
-                quantity:  state.currency.isNotEmpty
-                    ? ( state.currency[0].usd) * double.parse(money)
+                quantity: state.currency.isNotEmpty
+                    ? (state.currency[0].usd) * double.parse(keyState)
                     : 0,
               ),
               ContainerCurrencyWidget(
                 currency: 'AMD',
                 urlFlagImage: 'https://flagsapi.com/AM/flat/64.png',
-                quantity:  state.currency.isNotEmpty
-                    ? ( state.currency[0].amd) * double.parse(money)
+                quantity: state.currency.isNotEmpty
+                    ? (state.currency[0].amd) * double.parse(keyState)
                     : 0,
               ),
               ContainerCurrencyWidget(
                 currency: 'AZN',
                 urlFlagImage: 'https://flagsapi.com/AZ/flat/64.png',
-                quantity:  state.currency.isNotEmpty
-                    ? ( state.currency[0].azn) * double.parse(money)
+                quantity: state.currency.isNotEmpty
+                    ? (state.currency[0].azn) * double.parse(keyState)
                     : 0,
               ),
               const SizedBox(height: 20),
-              Container(
-                height: 280,
-                width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(255, 72, 121, 116),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            buildButton(context, 'C', 0.6, Colors.green),
-                            buildButton(context, '7', 0.6, Colors.white),
-                            buildButton(context, '8', 0.6, Colors.white),
-                            buildButton(context, '9', 0.6, Colors.white),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            buildButton(context, '↻', 0.6, Colors.lightBlueAccent),
-                            buildButton(context, '4', 0.6, Colors.white),
-                            buildButton(context, '5', 0.6, Colors.white),
-                            buildButton(context, '6', 0.6, Colors.white),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 108,
-                              //color: Colors.black12,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.black12,
-                                  side: const BorderSide(
-                                    color: Colors.white,
-                                    width: 1,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                                onPressed: () {},
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      '+ −',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 30,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    Text(
-                                      '× ÷',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 30,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    buildButton(context, '1', 0.6, Colors.white),
-                                    const SizedBox(width: 8),
-                                    buildButton(context, '2', 0.6, Colors.white),
-                                    const SizedBox(width: 8),
-                                    buildButton(context, '3', 0.6, Colors.white),
-                                  ],
-                                ),
-                                const SizedBox(height: 15),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    //buildButton(context, 'C', 0.6, Colors.blue),
-                                    buildButton(context, '0', 0.6, Colors.white),
-                                    const SizedBox(width: 8),
-                                    buildButton(context, '.', 0.6, Colors.white),
-                                    const SizedBox(width: 8),
-                                    buildButton(context, '×', 0.6, Colors.white),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ]),
-                ),
-              ),
+              const ConverterKeyboardScreen(),
             ],
           ),
         );
-      }
-    );
+      });
+    });
   }
 }
